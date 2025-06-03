@@ -5,23 +5,19 @@ Servo emp;
 
 int TRIG1= 12;
 int ECHO1= 11;
-int DURACAO1;
-int DISTANCIA1;
 int pinzinho=500;
 int coisinha=2500;
+int DURACAO1, DISTANCIA1;
 
 
-unsigned long millisP;
-unsigned long millisL;
-unsigned long millisB;
+unsigned long millisP, millisL, millisB;
 
 unsigned long currentMillis;
 
 
 int TRIG2= 3;
 int ECHO2= 2;
-int DURACAO2;
-int DISTANCIA2;
+int DURACAO2, DISTANCIA2;
 float FUNDO = 30; /// fundo do lixo
 float centopor;
 
@@ -39,7 +35,7 @@ void setup(){
 	pinMode(TRIG1, OUTPUT);
 	pinMode(ECHO1, INPUT);
 	
-	emp.attach(13,pinzinho,coisinha);
+	emp.attach(13,pinzinho,coisinha);		//	Servo motor no pino 13
 	emp.write(0);
 	
 	pinMode(TRIG2, OUTPUT);
@@ -70,14 +66,18 @@ void portinhola(){
 	DISTANCIA1=DURACAO1/58.2;
 
 	if (DISTANCIA1 == 0)
+	{									//	Se ficar recebendo só 99 ou 98 de Distância, provavelmente
+		DISTANCIA1 = 98;				//	significa que tem um problema de conexão
+	};									// 	com os sensores
+	if (DISTANCIA1 >=331)
 	{
-		DISTANCIA1 = 999;
+		DISTANCIA1 = 99;
 	};
 	
 	
-	if (DISTANCIA1 <= 5)
+	if (DISTANCIA1 <= 10)
 	{
-		emp.write(180); 
+		emp.write(180); //Servo gira 180 graus
 		millisP = currentMillis; 						//// TIMER RESETA QUANDO DETECTAR MOVIMENTO	
 
 	} else if ( (currentMillis - millisP) >= 6000) 		// DELAY DE 6 SEGUNDOS
@@ -97,7 +97,7 @@ void lixo(){
 
   
 	
-		if ( (currentMillis - millisL) > 3000) //// A cada 3 segundos,
+		if ( (currentMillis - millisL) > 3000)
 		{
 			
 			digitalWrite(TRIG2, HIGH);
@@ -106,6 +106,14 @@ void lixo(){
 		
 			DURACAO2=pulseIn(ECHO2, HIGH); 
 			DISTANCIA2=DURACAO2/58.2;
+
+      DISTANCIA2 -= 10;     // offset em cm pra determinar onde seria o ponto 0
+			
+			if (DISTANCIA2 >= 331)
+			{
+				DISTANCIA2 = 99;
+			};
+			
 		
 			//pega a porcentagem entre 0 e 100 com FUNDO e DISTANCIA2	
 			float porcento = constrain( ((DISTANCIA2 * 100) / FUNDO), 0, 100); 
@@ -135,7 +143,7 @@ void lixo(){
 				Serial.println();
 			};
 			
-			// 		^ ^ ^ ^
+			// 		^^^^^^^^^
 			
 			millisL = currentMillis;
 		};
@@ -196,13 +204,10 @@ void loop(){
 	leds();
 
 	currentMillis = millis();
-
-	//if ( (currentMillis - millisP) >= 20000)
-	//{
-	//	millisP = currentMillis;
-	//	millisP += 1000;
-	//};
-
+	
+	////	IMPRIME VALORES DOS SENSORES E DOS MILLIS
+	////	PARA DEBUGGING;
+	////	DESLIGUE ISSO NA HORA DE APRESENTAR
 	Serial.print(DISTANCIA1);
 	Serial.print("\t");
   
@@ -223,3 +228,9 @@ void loop(){
 }
 
 // https://www.norwegiancreations.com/2017/09/arduino-tutorial-using-millis-instead-of-delay/
+
+//https://community.appinventor.mit.edu/t/bluetooth-hc-06-arduino-send-receive-send-text-file-multitouch-image/9518/15
+		// 		14. Where do we connect the Bluetooth module in Arduino UNO?
+
+
+    // HC 05      BLUETOOTH
