@@ -9,22 +9,26 @@ int DURACAO1;
 int DISTANCIA1;
 int pinzinho=500;
 int coisinha=2500;
-unsigned long millisP= millis();
+
+
+unsigned long millisP;
+unsigned long millisL;
+unsigned long millisB;
+
+unsigned long currentMillis;
 
 
 int TRIG2= 3;
 int ECHO2= 2;
 int DURACAO2;
 int DISTANCIA2;
-float FUNDO = 90; /// fundo do lixo
+float FUNDO = 30; /// fundo do lixo
 float centopor;
-unsigned long millisL = millis();
 
 
 int VERDE= 6;
 int AMARELO= 5;
 int VERMELHO= 4;
-unsigned long millisB = millis();
 
 
 
@@ -50,40 +54,50 @@ void setup(){
 	digitalWrite(VERDE, LOW);
 	
 	centopor = 0;
+  
+
+  millisP = millis();
+  millisL = millis();
+  millisB = millis();
+  
 }
 
 void portinhola(){
-	
+
 	digitalWrite(TRIG1, HIGH);	
 	digitalWrite(TRIG1, LOW);
 	DURACAO1=pulseIn(ECHO1, HIGH);
 	DISTANCIA1=DURACAO1/58.2;
-	
-	
-	if (DISTANCIA1 <= 50)
-	{
-		
-		emp.write(90); 
-		millisP = millis(); 						//// TIMER RESETA QUANDO DETECTAR MOVIMENTO	
 
-	} else if ( (millis() - millisP) > 5000) 		// DELAY DE 5 SEGUNDOS
+	if (DISTANCIA1 == 0)
 	{
-		
-		if (DISTANCIA1 > 50) 
-		{	
-			emp.write(0);
-		};
-		
+		DISTANCIA1 = 999;
 	};
+	
+	
+	if (DISTANCIA1 <= 5)
+	{
+		emp.write(180); 
+		millisP = currentMillis; 						//// TIMER RESETA QUANDO DETECTAR MOVIMENTO	
+
+	} else if ( (currentMillis - millisP) >= 6000) 		// DELAY DE 6 SEGUNDOS
+
+	  {
+			emp.write(0);
+	  };
+
 	
 }
 
 void lixo(){
 	
-	if ( (millis() - millisP) > 5000) //// Essa função não roda enquanto a porta estiver aberta
+
+	if ( (currentMillis - millisP) >= 7000)
 	{
+
+  
 	
-		if ( (millis() - millisL) > 3000) //// A cada 3 segundos,
+		if ( (currentMillis - millisL) > 3000) //// A cada 3 segundos,
 		{
 			
 			digitalWrite(TRIG2, HIGH);
@@ -92,7 +106,6 @@ void lixo(){
 		
 			DURACAO2=pulseIn(ECHO2, HIGH); 
 			DISTANCIA2=DURACAO2/58.2;
-		
 		
 			//pega a porcentagem entre 0 e 100 com FUNDO e DISTANCIA2	
 			float porcento = constrain( ((DISTANCIA2 * 100) / FUNDO), 0, 100); 
@@ -120,45 +133,41 @@ void lixo(){
 				Serial.print(int(centopor));
 				Serial.println("% cheia");
 				Serial.println();
-				
-				// Esse comando vai ser importante na hora de montar o lixo pra determinar o valor de FUNDO
-				//Serial.Println(DISTANCIA2);
 			};
 			
 			// 		^ ^ ^ ^
 			
-			
-			
-			millisL = millis();
-			
+			millisL = currentMillis;
 		};
-	};
+  };
 }	
 
 void leds(){
 	
 	if (centopor >= 90)
 	{
-			
-		if ( (millis() - millisB) < 500)
+
+		if ( ((currentMillis - millisB) >= 0) && ( (currentMillis - millisB) < 450))
 		{
+			
 			digitalWrite(VERMELHO, HIGH);
 			digitalWrite(AMARELO, HIGH);
 			digitalWrite(VERDE, HIGH);
-			
-			if ( (millis() - millisB) > 250)
-			{	
+
+    };
+		if ( (currentMillis - millisB) >= 675)
+		{	
 			digitalWrite(VERMELHO, LOW);
 			digitalWrite(AMARELO, LOW);
 			digitalWrite(VERDE, LOW);
-			
+
+			if ( (currentMillis - millisB) >= 900)
+			{
+				millisB = currentMillis;
 			};
-			
-		} else
-		{
-			millisB = millis();
-			
 		};
+    
+    
 		
 	} else if (centopor >= 60)
 	{
@@ -185,4 +194,32 @@ void loop(){
 	portinhola();
 	lixo();
 	leds();
+
+	currentMillis = millis();
+
+	//if ( (currentMillis - millisP) >= 20000)
+	//{
+	//	millisP = currentMillis;
+	//	millisP += 1000;
+	//};
+
+	Serial.print(DISTANCIA1);
+	Serial.print("\t");
+  
+	Serial.print(DISTANCIA2);
+	Serial.print("\t");
+
+	Serial.print(currentMillis - millisP);
+	Serial.print("\t"); Serial.print("\t");
+	
+	Serial.print(currentMillis - millisL);
+	Serial.print("\t");
+
+	Serial.print(currentMillis - millisB);
+	Serial.print("\t"); Serial.print("\t");
+
+	Serial.println(millisP);
+
 }
+
+// https://www.norwegiancreations.com/2017/09/arduino-tutorial-using-millis-instead-of-delay/
