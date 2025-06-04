@@ -36,7 +36,7 @@ void setup(){
 	pinMode(ECHO1, INPUT);
 	
 	emp.attach(13,pinzinho,coisinha);		//	Servo motor no pino 13
-	emp.write(0);
+	emp.write(90);
 	
 	pinMode(TRIG2, OUTPUT);
 	pinMode(ECHO2, INPUT);
@@ -65,7 +65,7 @@ void portinhola(){
 	DURACAO1=pulseIn(ECHO1, HIGH);
 	DISTANCIA1=DURACAO1/58.2;
 
-	if (DISTANCIA1 == 0)
+	if (DISTANCIA1 <= 0)
 	{									//	Se ficar recebendo só 99 ou 98 de Distância, provavelmente
 		DISTANCIA1 = 98;				//	significa que tem um problema de conexão
 	};									// 	com os sensores
@@ -75,15 +75,15 @@ void portinhola(){
 	};
 	
 	
-	if (DISTANCIA1 <= 10)
+	if (DISTANCIA1 <= 5)
 	{
-		emp.write(180); //Servo gira 180 graus
+		emp.write(270); //Servo gira 180 graus
 		millisP = currentMillis; 						//// TIMER RESETA QUANDO DETECTAR MOVIMENTO	
 
 	} else if ( (currentMillis - millisP) >= 6000) 		// DELAY DE 6 SEGUNDOS
 
 	  {
-			emp.write(0);
+			emp.write(90);
 	  };
 
 	
@@ -107,7 +107,7 @@ void lixo(){
 			DURACAO2=pulseIn(ECHO2, HIGH); 
 			DISTANCIA2=DURACAO2/58.2;
 
-      DISTANCIA2 -= 10;     // offset em cm pra determinar onde seria o ponto 0
+			DISTANCIA2 -= 10;     // offset em cm pra determinar onde seria o ponto 0
 			
 			if (DISTANCIA2 >= 331)
 			{
@@ -162,7 +162,7 @@ void leds(){
 			digitalWrite(AMARELO, HIGH);
 			digitalWrite(VERDE, HIGH);
 
-    };
+		};
 		if ( (currentMillis - millisB) >= 675)
 		{	
 			digitalWrite(VERMELHO, LOW);
