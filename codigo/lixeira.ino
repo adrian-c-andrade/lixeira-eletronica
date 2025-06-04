@@ -234,3 +234,5 @@ void loop(){
 
 
     // HC 05      BLUETOOTH
+
+//https://www.youtube.com/watch?v=0zz1n6wVoz0&t=390s
