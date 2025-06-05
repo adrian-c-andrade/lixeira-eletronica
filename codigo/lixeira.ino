@@ -18,7 +18,7 @@ unsigned long currentMillis;
 int TRIG2= 3;
 int ECHO2= 2;
 int DURACAO2, DISTANCIA2;
-float FUNDO = 30; /// fundo do lixo
+float FUNDO = 25; /// fundo do lixo
 float centopor;
 
 
@@ -75,12 +75,12 @@ void portinhola(){
 	};
 	
 	
-	if (DISTANCIA1 <= 5)
+	if (DISTANCIA1 <= 10)
 	{
 		emp.write(270); //Servo gira 180 graus
 		millisP = currentMillis; 						//// TIMER RESETA QUANDO DETECTAR MOVIMENTO	
 
-	} else if ( (currentMillis - millisP) >= 6000) 		// DELAY DE 6 SEGUNDOS
+	} else if ( (currentMillis - millisP) >= 4000) 		// DELAY DE 6 SEGUNDOS
 
 	  {
 			emp.write(90);
@@ -92,7 +92,7 @@ void portinhola(){
 void lixo(){
 	
 
-	if ( (currentMillis - millisP) >= 7000)
+	if ( (currentMillis - millisP) >= 6000)
 	{
 
   
@@ -112,6 +112,11 @@ void lixo(){
 			if (DISTANCIA2 >= 331)
 			{
 				DISTANCIA2 = 99;
+			};
+
+			if (DISTANCIA2 <= -200)
+			{
+				DISTANCIA2 = 98;
 			};
 			
 		
