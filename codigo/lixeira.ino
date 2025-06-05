@@ -36,7 +36,7 @@ void setup(){
 	pinMode(ECHO1, INPUT);
 	
 	emp.attach(13,pinzinho,coisinha);		//	Servo motor no pino 13
-	emp.write(90);
+	emp.write(0);
 	
 	pinMode(TRIG2, OUTPUT);
 	pinMode(ECHO2, INPUT);
@@ -75,15 +75,15 @@ void portinhola(){
 	};
 	
 	
-	if (DISTANCIA1 <= 10)
+	if (DISTANCIA1 <= 25)
 	{
-		emp.write(270); //Servo gira 180 graus
+		emp.write(180); //Servo gira 180 graus
 		millisP = currentMillis; // TIMER RESETA QUANDO DETECTAR MOVIMENTO	
 
 	} else if ( (currentMillis - millisP) >= 4000) // DELAY DE 4 SEGUNDOS
 
 	  {
-			emp.write(90);
+			emp.write(0);
 	  };
 
 	
@@ -91,6 +91,17 @@ void portinhola(){
 
 void lixo(){
 	
+  
+			
+	if (DISTANCIA2 >= 331)
+	{
+		DISTANCIA2 = 99;
+	};
+
+	if (DISTANCIA2 <= -200)
+	{
+		DISTANCIA2 = 98;
+	};
 
 	if ( (currentMillis - millisP) >= 6000)
 	{
@@ -101,23 +112,13 @@ void lixo(){
 		{
 			
 			digitalWrite(TRIG2, HIGH);
-			digitalWrite(TRIG2, LOW);
+	    digitalWrite(TRIG2, LOW);
 	
 		
-			DURACAO2=pulseIn(ECHO2, HIGH); 
-			DISTANCIA2=DURACAO2/58.2;
+	    DURACAO2=pulseIn(ECHO2, HIGH); 
+	    DISTANCIA2=DURACAO2/58.2;
 
-			DISTANCIA2 -= 10;     // offset em cm pra determinar onde seria o ponto 0
-			
-			if (DISTANCIA2 >= 331)
-			{
-				DISTANCIA2 = 99;
-			};
-
-			if (DISTANCIA2 <= -200)
-			{
-				DISTANCIA2 = 98;
-			};
+	    DISTANCIA2 -= 10;     // offset em cm pra determinar onde seria o ponto 0
 			
 		
 			//pega a porcentagem entre 0 e 100 com FUNDO e DISTANCIA2	
@@ -157,10 +158,14 @@ void lixo(){
 
 void leds(){
 	
-	if (centopor >= 90)
+	if (centopor >= 70)
 	{
 
-		if ( ((currentMillis - millisB) >= 0) && ( (currentMillis - millisB) < 450))
+    digitalWrite(VERMELHO, HIGH);
+    digitalWrite(AMARELO, HIGH);
+    digitalWrite(VERDE, HIGH);
+
+		/*if ( ((currentMillis - millisB) >= 0) && ( (currentMillis - millisB) < 450))
 		{
 			
 			digitalWrite(VERMELHO, HIGH);
@@ -178,29 +183,23 @@ void leds(){
 			{
 				millisB = currentMillis;
 			};
-		};
+		};*/
     
     
 		
-	} else if (centopor >= 60)
+	} else if (centopor >= 40)
 	{
+    digitalWrite(VERDE, HIGH);
+    digitalWrite(AMARELO, HIGH);
 		digitalWrite(VERMELHO, LOW);
-		digitalWrite(AMARELO, HIGH);
-		digitalWrite(VERDE, HIGH);
 		
-	} else if (centopor >= 30)
+	} else if (centopor < 40)
 	{
 		digitalWrite(VERMELHO, LOW);
 		digitalWrite(AMARELO, LOW);
 		digitalWrite(VERDE, HIGH);
 		
-	} else
-	{
-		digitalWrite(VERMELHO, LOW);
-		digitalWrite(AMARELO, LOW);
-		digitalWrite(VERDE, LOW);
-		
-	}
+	};
 }
 void loop(){
 	
@@ -228,7 +227,10 @@ void loop(){
 	Serial.print(currentMillis - millisB);
 	Serial.print("\t"); Serial.print("\t");
 
-	Serial.println(millisP);
+	Serial.print(millisP);
+  Serial.print("\t");
+
+  
 
 }
 
