@@ -66,9 +66,9 @@ void portinhola(){
 	DISTANCIA1=DURACAO1/58.2;
 
 	if (DISTANCIA1 <= 0)
-	{									//	Se ficar recebendo só 99 ou 98 de Distância, provavelmente
-		DISTANCIA1 = 98;				//	significa que tem um problema de conexão
-	};									// 	com os sensores
+	{									//	Se ficar recebendo só 99 ou 98 de Distância,
+		DISTANCIA1 = 98;				//	significa que tem um problema de 
+	};									// 	mal contato com os sensores
 	if (DISTANCIA1 >=331)
 	{
 		DISTANCIA1 = 99;
@@ -78,9 +78,9 @@ void portinhola(){
 	if (DISTANCIA1 <= 10)
 	{
 		emp.write(270); //Servo gira 180 graus
-		millisP = currentMillis; 						//// TIMER RESETA QUANDO DETECTAR MOVIMENTO	
+		millisP = currentMillis; // TIMER RESETA QUANDO DETECTAR MOVIMENTO	
 
-	} else if ( (currentMillis - millisP) >= 4000) 		// DELAY DE 6 SEGUNDOS
+	} else if ( (currentMillis - millisP) >= 4000) // DELAY DE 4 SEGUNDOS
 
 	  {
 			emp.write(90);
