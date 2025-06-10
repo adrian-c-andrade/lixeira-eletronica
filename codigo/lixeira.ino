@@ -191,7 +191,7 @@ void leds(){
 	{
     digitalWrite(VERDE, LOW);
     digitalWrite(AMARELO, HIGH);
-	digitalWrite(VERMELHO, LOW);
+	  digitalWrite(VERMELHO, LOW);
 		
 	} else if (centopor >= 25)
 	{
