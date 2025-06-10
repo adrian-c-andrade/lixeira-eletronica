@@ -162,8 +162,8 @@ void leds(){
 	{
 
     digitalWrite(VERMELHO, HIGH);
-    digitalWrite(AMARELO, HIGH);
-    digitalWrite(VERDE, HIGH);
+    digitalWrite(AMARELO, LOW);
+    digitalWrite(VERDE, LOW);
 
 		/*if ( ((currentMillis - millisB) >= 0) && ( (currentMillis - millisB) < 450))
 		{
@@ -187,17 +187,38 @@ void leds(){
     
     
 		
-	} else if (centopor >= 40)
+	} else if (centopor >= 50)
 	{
-    digitalWrite(VERDE, HIGH);
+    digitalWrite(VERDE, LOW);
     digitalWrite(AMARELO, HIGH);
-		digitalWrite(VERMELHO, LOW);
+	digitalWrite(VERMELHO, LOW);
 		
-	} else if (centopor < 40)
+	} else if (centopor >= 25)
 	{
 		digitalWrite(VERMELHO, LOW);
 		digitalWrite(AMARELO, LOW);
 		digitalWrite(VERDE, HIGH);
+		
+	} else
+	{
+		if ((currentMillis - millisB) < 1000)
+		{
+			digitalWrite(VERDE, LOW);
+			digitalWrite(AMARELO, LOW);
+			digitalWrite(VERMELHO, LOW);
+			
+		} else
+		{
+			digitalWrite(VERDE, HIGH);
+			digitalWrite(AMARELO, LOW);
+			digitalWrite(VERMELHO, LOW);
+			
+			if ((currentMillis - millisB) >= 2000)
+			{
+				millisB = currentMillis;
+			};
+			
+		};
 		
 	};
 }
@@ -228,7 +249,7 @@ void loop(){
 	Serial.print("\t"); Serial.print("\t");
 
 	Serial.print(millisP);
-  Serial.print("\t");
+	Serial.println("\t");
 
   
 
