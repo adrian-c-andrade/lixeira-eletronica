@@ -69,9 +69,9 @@ void portinhola(){
 	{									//	Se ficar recebendo só 99 ou 98 de Distância,
 		DISTANCIA1 = 98;				//	significa que tem um problema de 
 	};									// 	mal contato com os sensores
-	if (DISTANCIA1 >=331)
+	if (DISTANCIA1 >=150)
 	{
-		DISTANCIA1 = 99;
+		DISTANCIA1 = 101;
 	};
 	
 	
@@ -95,13 +95,13 @@ void lixo(){
 			
 	if (DISTANCIA2 >= 331)
 	{
-		DISTANCIA2 = 99;
+		DISTANCIA2 = 101;
 	};
 
-	if (DISTANCIA2 <= -200)
+	/*if (DISTANCIA2 <= -20)
 	{
 		DISTANCIA2 = 98;
-	};
+	};*/
 
 	if ( (currentMillis - millisP) >= 6000)
 	{
@@ -203,13 +203,13 @@ void leds(){
 	{
 		if ((currentMillis - millisB) < 1000)
 		{
-			digitalWrite(VERDE, LOW);
+			digitalWrite(VERDE, HIGH);
 			digitalWrite(AMARELO, LOW);
 			digitalWrite(VERMELHO, LOW);
 			
 		} else
 		{
-			digitalWrite(VERDE, HIGH);
+			digitalWrite(VERDE, LOW);
 			digitalWrite(AMARELO, LOW);
 			digitalWrite(VERMELHO, LOW);
 			
