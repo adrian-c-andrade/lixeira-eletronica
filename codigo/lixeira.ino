@@ -113,8 +113,6 @@ void lixo(){
 			
 			digitalWrite(TRIG2, HIGH);
 	    digitalWrite(TRIG2, LOW);
-	
-		
 	    DURACAO2=pulseIn(ECHO2, HIGH); 
 	    DISTANCIA2=DURACAO2/58.2;
 
