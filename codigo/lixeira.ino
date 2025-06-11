@@ -66,24 +66,25 @@ void portinhola(){
 	DISTANCIA1=DURACAO1/58.2;
 
 	if (DISTANCIA1 <= 0)
-	{									//	Se ficar recebendo só 99 ou 98 de Distância,
-		DISTANCIA1 = 98;						//	significa que tem um problema de 
-	};									// 	mal contato com os sensores
+	{											//	Se ficar recebendo só 99 ou 98 de Distância,
+		DISTANCIA1 = 98;								//	significa que tem um problema de 
+	};											// 	mal contato com os sensores
+	
 	if (DISTANCIA1 >=150)
 	{
-		DISTANCIA1 = 101;
+		DISTANCIA1 = 150;
 	};
 	
 	
 	if (DISTANCIA1 <= 25)
 	{
-		emp.write(180); 			//Servo gira 180 graus
-		millisP = currentMillis; 		// TIMER RESETA QUANDO DETECTAR MOVIMENTO	
+		emp.write(180); 						//Servo gira 180 graus
+		millisP = currentMillis; 				// TIMER RESETA QUANDO DETECTAR MOVIMENTO	
 
 	} else if ( (currentMillis - millisP) >= 4000) // DELAY DE 4 SEGUNDOS
 
 	{
-			emp.write(0);
+		emp.write(0);
 	};
 
 	
@@ -98,23 +99,18 @@ void lixo(){
 		DISTANCIA2 = 101;
 	};
 
-	/*if (DISTANCIA2 <= -20)
-	{
-		DISTANCIA2 = 98;
-	};*/
-
 	if ( (currentMillis - millisP) >= 6000)
 	{
-
+		
   		if ( (currentMillis - millisL) > 3000)
 		{
 			
 			digitalWrite(TRIG2, HIGH);
-	    		digitalWrite(TRIG2, LOW);
-	    		DURACAO2=pulseIn(ECHO2, HIGH); 
-	    		DISTANCIA2=DURACAO2/58.2;
+	    	digitalWrite(TRIG2, LOW);
+	    	DURACAO2=pulseIn(ECHO2, HIGH); 
+	    	DISTANCIA2=DURACAO2/58.2;
 
-	    		DISTANCIA2 -= 10;     // offset em cm pra determinar onde seria o ponto 0
+	    	DISTANCIA2 -= 10;     // offset em cm pra determinar onde seria o ponto 0
 			
 		
 			//pega a porcentagem entre 0 e 100 com FUNDO e DISTANCIA2	
@@ -157,36 +153,14 @@ void leds(){
 	if (centopor >= 70)
 	{
 
-    		digitalWrite(VERMELHO, HIGH);
-    		digitalWrite(AMARELO, LOW);
-    		digitalWrite(VERDE, LOW);
-
-		/*if ( ((currentMillis - millisB) >= 0) && ( (currentMillis - millisB) < 450))
-		{
-			
-			digitalWrite(VERMELHO, HIGH);
-			digitalWrite(AMARELO, HIGH);
-			digitalWrite(VERDE, HIGH);
-
-		};
-		if ( (currentMillis - millisB) >= 675)
-		{	
-			digitalWrite(VERMELHO, LOW);
-			digitalWrite(AMARELO, LOW);
-			digitalWrite(VERDE, LOW);
-
-			if ( (currentMillis - millisB) >= 900)
-			{
-				millisB = currentMillis;
-			};
-		};*/
-    
-    
+    	digitalWrite(VERMELHO, HIGH);
+    	digitalWrite(AMARELO, LOW);
+    	digitalWrite(VERDE, LOW);
 		
 	} else if (centopor >= 50)
 	{
-    		digitalWrite(VERDE, LOW);
-    		digitalWrite(AMARELO, HIGH);
+    	digitalWrite(VERDE, LOW);
+    	digitalWrite(AMARELO, HIGH);
 	  	digitalWrite(VERMELHO, LOW);
 		
 	} else if (centopor >= 25)
@@ -220,7 +194,12 @@ void leds(){
 }
 void loop(){
 	
-	portinhola();
+	
+	if ( ((currentMillis - millisP) <= 3500) || ((currentMillis - millisP) >= 4010) )
+	{
+		portinhola();
+	};
+	
 	lixo();
 	leds();
 
@@ -228,7 +207,6 @@ void loop(){
 	
 	////	IMPRIME VALORES DOS SENSORES E DOS MILLIS
 	////	PARA DEBUGGING;
-	////	DESLIGUE ISSO NA HORA DE APRESENTAR
 	Serial.print(DISTANCIA1);
 	Serial.print("\t");
   
@@ -254,9 +232,12 @@ void loop(){
 // https://www.norwegiancreations.com/2017/09/arduino-tutorial-using-millis-instead-of-delay/
 
 //https://community.appinventor.mit.edu/t/bluetooth-hc-06-arduino-send-receive-send-text-file-multitouch-image/9518/15
-		// 		14. Where do we connect the Bluetooth module in Arduino UNO?
+// 		14. Where do we connect the Bluetooth module in Arduino UNO?
 
 
-    // HC 05      BLUETOOTH
+// HC 05      BLUETOOTH
 
 //https://www.youtube.com/watch?v=0zz1n6wVoz0&t=390s
+
+
+
