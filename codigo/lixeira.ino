@@ -106,11 +106,11 @@ void lixo(){
 		{
 			
 			digitalWrite(TRIG2, HIGH);
-	    	digitalWrite(TRIG2, LOW);
-	    	DURACAO2=pulseIn(ECHO2, HIGH); 
-	    	DISTANCIA2=DURACAO2/58.2;
+	    		digitalWrite(TRIG2, LOW);
+	    		DURACAO2=pulseIn(ECHO2, HIGH); 
+	    		DISTANCIA2=DURACAO2/58.2;
 
-	    	DISTANCIA2 -= 10;     // offset em cm pra determinar onde seria o ponto 0
+	    		DISTANCIA2 -= 10;     // offset em cm pra determinar onde seria o ponto 0
 			
 		
 			//pega a porcentagem entre 0 e 100 com FUNDO e DISTANCIA2	
@@ -153,14 +153,14 @@ void leds(){
 	if (centopor >= 70)
 	{
 
-    	digitalWrite(VERMELHO, HIGH);
-    	digitalWrite(AMARELO, LOW);
-    	digitalWrite(VERDE, LOW);
+    		digitalWrite(VERMELHO, HIGH);
+    		digitalWrite(AMARELO, LOW);
+    		digitalWrite(VERDE, LOW);
 		
 	} else if (centopor >= 50)
 	{
-    	digitalWrite(VERDE, LOW);
-    	digitalWrite(AMARELO, HIGH);
+    		digitalWrite(VERDE, LOW);
+    		digitalWrite(AMARELO, HIGH);
 	  	digitalWrite(VERMELHO, LOW);
 		
 	} else if (centopor >= 25)
