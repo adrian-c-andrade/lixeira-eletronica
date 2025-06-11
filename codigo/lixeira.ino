@@ -18,7 +18,7 @@ unsigned long currentMillis;
 int TRIG2= 3;
 int ECHO2= 2;
 int DURACAO2, DISTANCIA2;
-float FUNDO = 25; /// fundo do lixo
+float FUNDO = 25; // Onde seria o fundo do lixo, determinado pelo valor que DISTANCIA2 retorna quando a lixeira estiver vazia.
 float centopor;
 
 
@@ -35,7 +35,7 @@ void setup(){
 	pinMode(TRIG1, OUTPUT);
 	pinMode(ECHO1, INPUT);
 	
-	emp.attach(13,pinzinho,coisinha);		//	Servo motor no pino 13
+	emp.attach(13,pinzinho,coisinha); //Servo motor no pino 13
 	emp.write(0);
 	
 	pinMode(TRIG2, OUTPUT);
@@ -60,15 +60,15 @@ void setup(){
 
 void portinhola(){
 
-	digitalWrite(TRIG1, HIGH);	
+	digitalWrite(TRIG1, HIGH);
 	digitalWrite(TRIG1, LOW);
 	DURACAO1=pulseIn(ECHO1, HIGH);
 	DISTANCIA1=DURACAO1/58.2;
 
 	if (DISTANCIA1 <= 0)
-	{											//	Se ficar recebendo só 99 ou 98 de Distância,
-		DISTANCIA1 = 98;								//	significa que tem um problema de 
-	};											// 	mal contato com os sensores
+	{								// Se ficar recebendo só 99 ou 98 de Distância,
+		DISTANCIA1 = 98;					// significa que tem um problema de 
+	};								// mal contato com os sensores
 	
 	if (DISTANCIA1 >=150)
 	{
@@ -78,13 +78,13 @@ void portinhola(){
 	
 	if (DISTANCIA1 <= 25)
 	{
-		emp.write(180); 						//Servo gira 180 graus
-		millisP = currentMillis; 				// TIMER RESETA QUANDO DETECTAR MOVIMENTO	
+		emp.write(180); 					// ABRE A LIXEIRA,
+		millisP = currentMillis; 				// RESETA O TIMER,
 
-	} else if ( (currentMillis - millisP) >= 4000) // DELAY DE 4 SEGUNDOS
+	} else if ( (currentMillis - millisP) >= 4000) 			// ESPERA 4 SEGUNDOS ENQUANTO NÃO TIVER NADA PERTO
 
 	{
-		emp.write(0);
+		emp.write(0);						// FECHA A LIXEIRA.
 	};
 
 	
@@ -110,27 +110,30 @@ void lixo(){
 	    		DURACAO2=pulseIn(ECHO2, HIGH); 
 	    		DISTANCIA2=DURACAO2/58.2;
 
-	    		DISTANCIA2 -= 10;     // offset em cm pra determinar onde seria o ponto 0
+	    		DISTANCIA2 -= 10; // offset em cm pra determinar a altura onde seria o 100%. Quando maior o valor, menor a altura.
 			
 		
-			//pega a porcentagem entre 0 e 100 com FUNDO e DISTANCIA2	
-			float porcento = constrain( ((DISTANCIA2 * 100) / FUNDO), 0, 100); 
-			centopor = 100 - porcento;	
+			// Faz uma porcentagem usando DISTANCIA2 e FUNDO, e inverte,
+			//Assim, quanto mais perto do sensor, maior a porcentagem
+			float centopor = 100 - constrain( ((DISTANCIA2 * 100) / FUNDO), 0, 100); 
 			
 			
 			// PLACEHOLDER ATÉ O APLICATIVO FICAR PRONTO
 			// 		V V V V V
 			
 			
-			if (centopor < 90)
+			if (centopor < 70)
 			{
+				for (int loop = 0; loop<=10; loop++) { Serial.println(); };
+				
 				Serial.print("lixeira: ");
 				Serial.print(int(centopor));
 				Serial.println("% cheia");
-				Serial.println();
 				
 			} else
-			{ 
+			{
+				for (int loop = 0; loop<=10; loop++) { Serial.println(); };
+				
 				Serial.print("!!!ALERTA!!!");
 				Serial.print("\t");
 				Serial.println("!!!LIXEIRA CHEIA!!!");
@@ -138,10 +141,10 @@ void lixo(){
 				Serial.print("lixeira: ");
 				Serial.print(int(centopor));
 				Serial.println("% cheia");
-				Serial.println();
+				
 			};
 			
-			// 		^^^^^^^^^
+			// 		^ ^ ^ ^ ^
 			
 			millisL = currentMillis;
 		};
@@ -149,7 +152,8 @@ void lixo(){
 }	
 
 void leds(){
-	
+
+	// Ascende um led conforme a porcentagem
 	if (centopor >= 70)
 	{
 
@@ -194,7 +198,6 @@ void leds(){
 }
 void loop(){
 	
-	
 	if ( ((currentMillis - millisP) <= 3500) || ((currentMillis - millisP) >= 4010) )
 	{
 		portinhola();
@@ -204,6 +207,8 @@ void loop(){
 	leds();
 
 	currentMillis = millis();
+	
+	
 	
 	////	IMPRIME VALORES DOS SENSORES E DOS MILLIS
 	////	PARA DEBUGGING;
@@ -228,16 +233,3 @@ void loop(){
   
 
 }
-
-// https://www.norwegiancreations.com/2017/09/arduino-tutorial-using-millis-instead-of-delay/
-
-//https://community.appinventor.mit.edu/t/bluetooth-hc-06-arduino-send-receive-send-text-file-multitouch-image/9518/15
-// 		14. Where do we connect the Bluetooth module in Arduino UNO?
-
-
-// HC 05      BLUETOOTH
-
-//https://www.youtube.com/watch?v=0zz1n6wVoz0&t=390s
-
-
-
