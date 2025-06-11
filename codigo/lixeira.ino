@@ -52,9 +52,9 @@ void setup(){
 	centopor = 0;
   
 
-  millisP = millis();
-  millisL = millis();
-  millisB = millis();
+  	millisP = millis();
+  	millisL = millis();
+  	millisB = millis();
   
 }
 
@@ -67,7 +67,7 @@ void portinhola(){
 
 	if (DISTANCIA1 <= 0)
 	{									//	Se ficar recebendo só 99 ou 98 de Distância,
-		DISTANCIA1 = 98;				//	significa que tem um problema de 
+		DISTANCIA1 = 98;						//	significa que tem um problema de 
 	};									// 	mal contato com os sensores
 	if (DISTANCIA1 >=150)
 	{
@@ -77,14 +77,14 @@ void portinhola(){
 	
 	if (DISTANCIA1 <= 25)
 	{
-		emp.write(180); //Servo gira 180 graus
-		millisP = currentMillis; // TIMER RESETA QUANDO DETECTAR MOVIMENTO	
+		emp.write(180); 			//Servo gira 180 graus
+		millisP = currentMillis; 		// TIMER RESETA QUANDO DETECTAR MOVIMENTO	
 
 	} else if ( (currentMillis - millisP) >= 4000) // DELAY DE 4 SEGUNDOS
 
-	  {
+	{
 			emp.write(0);
-	  };
+	};
 
 	
 }
@@ -106,17 +106,15 @@ void lixo(){
 	if ( (currentMillis - millisP) >= 6000)
 	{
 
-  
-	
-		if ( (currentMillis - millisL) > 3000)
+  		if ( (currentMillis - millisL) > 3000)
 		{
 			
 			digitalWrite(TRIG2, HIGH);
-	    digitalWrite(TRIG2, LOW);
-	    DURACAO2=pulseIn(ECHO2, HIGH); 
-	    DISTANCIA2=DURACAO2/58.2;
+	    		digitalWrite(TRIG2, LOW);
+	    		DURACAO2=pulseIn(ECHO2, HIGH); 
+	    		DISTANCIA2=DURACAO2/58.2;
 
-	    DISTANCIA2 -= 10;     // offset em cm pra determinar onde seria o ponto 0
+	    		DISTANCIA2 -= 10;     // offset em cm pra determinar onde seria o ponto 0
 			
 		
 			//pega a porcentagem entre 0 e 100 com FUNDO e DISTANCIA2	
@@ -151,7 +149,7 @@ void lixo(){
 			
 			millisL = currentMillis;
 		};
-  };
+  	};
 }	
 
 void leds(){
@@ -159,9 +157,9 @@ void leds(){
 	if (centopor >= 70)
 	{
 
-    digitalWrite(VERMELHO, HIGH);
-    digitalWrite(AMARELO, LOW);
-    digitalWrite(VERDE, LOW);
+    		digitalWrite(VERMELHO, HIGH);
+    		digitalWrite(AMARELO, LOW);
+    		digitalWrite(VERDE, LOW);
 
 		/*if ( ((currentMillis - millisB) >= 0) && ( (currentMillis - millisB) < 450))
 		{
@@ -187,9 +185,9 @@ void leds(){
 		
 	} else if (centopor >= 50)
 	{
-    digitalWrite(VERDE, LOW);
-    digitalWrite(AMARELO, HIGH);
-	  digitalWrite(VERMELHO, LOW);
+    		digitalWrite(VERDE, LOW);
+    		digitalWrite(AMARELO, HIGH);
+	  	digitalWrite(VERMELHO, LOW);
 		
 	} else if (centopor >= 25)
 	{
