@@ -36,7 +36,7 @@ void setup(){
 	pinMode(ECHO1, INPUT);
 	
 	emp.attach(13,pinzinho,coisinha); //Servo motor no pino 13
-	emp.write(0);
+	emp.write(180);
 	
 	pinMode(TRIG2, OUTPUT);
 	pinMode(ECHO2, INPUT);
@@ -78,13 +78,13 @@ void portinhola(){
 	
 	if (DISTANCIA1 <= 25)
 	{
-		emp.write(180); 					// ABRE A LIXEIRA,
+		emp.write(0); 					// ABRE A LIXEIRA,
 		millisP = currentMillis; 				// RESETA O TIMER,
 
 	} else if ( (currentMillis - millisP) >= 4000) 			// ESPERA 4 SEGUNDOS ENQUANTO NÃO TIVER NADA PERTO
 
 	{
-		emp.write(0);						// FECHA A LIXEIRA.
+		emp.write(180);						// FECHA A LIXEIRA.
 	};
 
 	
@@ -115,7 +115,7 @@ void lixo(){
 		
 			// Faz uma porcentagem usando DISTANCIA2 e FUNDO, e inverte,
 			//Assim, quanto mais perto do sensor, maior a porcentagem
-			float centopor = 100 - constrain( ((DISTANCIA2 * 100) / FUNDO), 0, 100); 
+			centopor = 100 - constrain( ((DISTANCIA2 * 100) / FUNDO), 0, 100); 
 			
 			
 			// PLACEHOLDER ATÉ O APLICATIVO FICAR PRONTO
