@@ -78,13 +78,13 @@ void portinhola(){
 	
 	if (DISTANCIA1 <= 25)
 	{
-		emp.write(0); 					// ABRE A LIXEIRA,
-		millisP = currentMillis; 				// RESETA O TIMER,
+		emp.write(0); 										// ABRE A LIXEIRA,
+		millisP = currentMillis; 							// RESETA O TIMER,
 
 	} else if ( (currentMillis - millisP) >= 4000) 			// ESPERA 4 SEGUNDOS ENQUANTO NÃO TIVER NADA PERTO
 
 	{
-		emp.write(180);						// FECHA A LIXEIRA.
+		emp.write(180);										// FECHA A LIXEIRA.
 	};
 
 	
@@ -106,13 +106,13 @@ void lixo(){
 		{
 			
 			digitalWrite(TRIG2, HIGH);
-	    		digitalWrite(TRIG2, LOW);
-	    		DURACAO2=pulseIn(ECHO2, HIGH); 
-	    		DISTANCIA2=DURACAO2/58.2;
-
-	    		DISTANCIA2 -= 10; // offset em cm pra determinar a altura onde seria o 100%. Quando maior o valor, menor a altura.
+	    	digitalWrite(TRIG2, LOW);
+	    	DURACAO2=pulseIn(ECHO2, HIGH); 
+	    	DISTANCIA2=DURACAO2/58.2;
 			
-		
+	    	DISTANCIA2 -= 10; // offset em cm pra determinar a altura onde seria o 100%. Quando maior o valor, menor a altura.
+			
+			
 			// Faz uma porcentagem usando DISTANCIA2 e FUNDO, e inverte,
 			//Assim, quanto mais perto do sensor, maior a porcentagem
 			centopor = 100 - constrain( ((DISTANCIA2 * 100) / FUNDO), 0, 100); 
@@ -156,15 +156,14 @@ void leds(){
 	// Ascende um led conforme a porcentagem
 	if (centopor >= 70)
 	{
-
-    		digitalWrite(VERMELHO, HIGH);
-    		digitalWrite(AMARELO, LOW);
-    		digitalWrite(VERDE, LOW);
+    	digitalWrite(VERMELHO, HIGH);
+    	digitalWrite(AMARELO, LOW);
+    	digitalWrite(VERDE, LOW);
 		
 	} else if (centopor >= 50)
 	{
-    		digitalWrite(VERDE, LOW);
-    		digitalWrite(AMARELO, HIGH);
+    	digitalWrite(VERDE, LOW);
+    	digitalWrite(AMARELO, HIGH);
 	  	digitalWrite(VERMELHO, LOW);
 		
 	} else if (centopor >= 25)
