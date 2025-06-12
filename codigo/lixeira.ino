@@ -232,3 +232,16 @@ void loop(){
   
 
 }
+
+/*
+LISTA DE MATERIAIS
+	1 Placa arduino Uno
+	1 protoboard
+	1 resistor 220k
+	3 LEDS (vermelho, amarelo, verde)
+	1 servo motor
+    	2 sensores ultrassônicos
+	MUITOS fios M/M e M/F
+
+ https://www.tinkercad.com/things/cAw111DSdID-copy-of-servo-sensor?sharecode=UfS2Lg_vMGxeFG_a3wN8-ee-x2lvnyFrpN6J4yVhzo4
+*/	
